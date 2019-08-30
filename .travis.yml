@@ -25,9 +25,9 @@ before_script:
 script:
   - make test
   - make
+  - make container-image
+  - make publish
 
 after_success:
-  - if [[ "$TRAVIS_BRANCH" == "develop" ]] && [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
-      docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD";
-      docker push infracloud/botkube:latest;
-    fi
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+  - docker push killcity/botkube:$TRAVIS_BRANCH
